@@ -25,7 +25,7 @@ const Cart = () => {
         <div className='border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-20 flex items-center justify-around p-1.5 rounded-md'>
           <ShoppingCartIcon />
           <span className='h-6 w-px bg-gray-300' aria-hidden='true' />
-          <span className='text-base text-primary font-semibold text-center'>
+          <span className='text-sm text-primary font-semibold text-center'>
             10
           </span>
         </div>
