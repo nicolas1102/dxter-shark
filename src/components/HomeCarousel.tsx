@@ -46,7 +46,7 @@ export function HomeCarousel() {
                   />
                   <Link href={item.href} className='z-50'>
                     <Button className='mt-40 md:mt-64'>
-                      <strong className='tracking-widest font-light'>
+                      <strong className='tracking-widest font-light dark:font-semibold'>
                         {formatToUpperCase(item.buttonDescription)}
                       </strong>
                     </Button>

@@ -24,9 +24,9 @@ const Cart = () => {
       <SheetTrigger className='group -m-2 flex items-center p-2'>
         <div className='border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-20 flex items-center justify-around p-1.5 rounded-md'>
           <ShoppingCartIcon />
-          <span className='h-6 w-px bg-gray-200' aria-hidden='true' />
-          <span className='text-sm font-medium text-gray-700 group-hover:text-gray-800 text-center'>
-            0
+          <span className='h-6 w-px bg-gray-300' aria-hidden='true' />
+          <span className='text-base text-primary font-semibold text-center'>
+            10
           </span>
         </div>
       </SheetTrigger>
