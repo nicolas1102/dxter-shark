@@ -1,6 +1,6 @@
 import type { ImageInterface, Featured } from '@/types'
 
-export const ANNOUNCEMENT_BAR = 'FREE SHIPPING FOR ALL U.S OR DERS OVER $75'
+export const ANNOUNCEMENT_BAR = 'FREE SHIPPING FOR ALL U.S ORDERS OVER $75'
 
 export const PRODUCT_CATEGORIES: {
   title: string

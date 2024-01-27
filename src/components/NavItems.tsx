@@ -11,13 +11,17 @@ import {
 import { PRODUCT_CATEGORIES } from '@/config'
 import React from 'react'
 import { Featured } from '@/types'
+import { formatToUpperCase } from '@/lib/utils'
 
 const NavItems = () => {
   return (
-    <NavigationMenuList>
+    <NavigationMenuList className='flex justify-start gap-x-1'>
       {PRODUCT_CATEGORIES.map((category) => (
-        <NavigationMenuItem key={category.title}>
-          <NavigationMenuTrigger>{category.title}</NavigationMenuTrigger>
+        <NavigationMenuItem
+          key={category.title}
+          className='border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md'
+        >
+          <NavigationMenuTrigger className='tracking-widest'>{formatToUpperCase(category.title)}</NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid w-[400px] gap-x-3 gap-y-2 p-7 md:w-[500px] md:grid-cols-2 lg:w-[700px]'>
               <li className='row-span-5'>

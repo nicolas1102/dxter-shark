@@ -6,13 +6,12 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from '@/components/ui/carousel'
 import Link from 'next/link'
 import Image from 'next/image'
 import Autoplay from 'embla-carousel-autoplay'
-import { Button, buttonVariants } from './ui/button'
+import { Button } from './ui/button'
+import { formatToUpperCase } from '@/lib/utils'
 
 export function HomeCarousel() {
   return (
@@ -47,7 +46,9 @@ export function HomeCarousel() {
                   />
                   <Link href={item.href} className='z-50'>
                     <Button className='mt-40 md:mt-64'>
-                      <strong>{item.buttonDescription}</strong>
+                      <strong className='tracking-widest font-light'>
+                        {formatToUpperCase(item.buttonDescription)}
+                      </strong>
                     </Button>
                   </Link>
                 </CardContent>
