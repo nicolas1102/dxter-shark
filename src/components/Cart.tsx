@@ -1,6 +1,6 @@
 'use client'
 
-import { ShoppingCartIcon } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -12,7 +12,6 @@ import {
 import { Separator } from './ui/separator'
 import { buttonVariants } from './ui/button'
 import Link from 'next/link'
-import Image from 'next/image'
 import { formatPrice } from '@/lib/utils'
 
 const Cart = () => {
@@ -23,7 +22,7 @@ const Cart = () => {
     <Sheet>
       <SheetTrigger className='group -m-2 flex items-center p-2'>
         <div className='border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 w-20 flex items-center justify-around p-1.5 rounded-md'>
-          <ShoppingCartIcon />
+          <ShoppingCart />
           <span className='h-6 w-px bg-gray-300' aria-hidden='true' />
           <span className='text-sm text-primary font-semibold text-center'>
             10
@@ -66,7 +65,9 @@ const Cart = () => {
                 <SheetTrigger asChild>
                   <Link
                     href='/cart'
-                    className={buttonVariants({ className: 'w-full tracking-widest' })}
+                    className={buttonVariants({
+                      className: 'w-full tracking-widest',
+                    })}
                   >
                     CHECKOUT
                   </Link>
