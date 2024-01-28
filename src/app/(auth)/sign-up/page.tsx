@@ -6,12 +6,13 @@ import { Label } from '@/components/ui/label'
 import { ArrowRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
 import {
   TAuthCredentialsValidator,
   AuthCredentialsValidator,
 } from '@/lib/validators/account-credentials-validator'
+import { trpc } from '@/trpc/client'
 
 const Page = () => {
   // register help us to handle the state of the inputs.
@@ -25,6 +26,10 @@ const Page = () => {
       resolver: zodResolver(AuthCredentialsValidator),
     }
   )
+
+  // the type of the data variable depends of what do we return in our backend (index.ts file) in that endpoint
+  const { data } = trpc.anyApiRoute.useQuery()
+  console.log('goku: ', data)
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
     // send data to the server

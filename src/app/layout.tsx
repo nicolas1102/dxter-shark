@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { ThemeProvider } from '@/hooks/useThemeProvider'
 import { Inter as FontSans } from 'next/font/google'
-import Navbar from '@/components/Navbar'
 import './globals.css'
-
+import { ThemeProvider } from '@/hooks/useThemeProvider'
 import { cn } from '@/lib/utils'
+import Navbar from '@/components/Navbar'
+import Providers from '@/components/Providers'
 
 export const fontSans = FontSans({
   subsets: ['latin'],
@@ -36,8 +36,10 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className='relative flex flex-col min-h-screen'>
-            <Navbar />
-            <div className='flex-grow flex-1'>{children}</div>
+            <Providers>
+              <Navbar />
+              <div className='flex-grow flex-1'>{children}</div>
+            </Providers>
           </main>
         </ThemeProvider>
       </body>
