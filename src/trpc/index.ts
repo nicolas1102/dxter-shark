@@ -1,12 +1,15 @@
 // this is our backend
 
-import { publicProcedure, router } from './trpc';
+import { authRouter } from './auth-router';
+import { router } from './trpc';
 
-// this is an API endpoint
+// this where we create our API endpoints
 export const appRouter = router({
-  anyApiRoute: publicProcedure.query(() => {
-    return 'hello'
-  }),
+  // // publicProcedure means that everyone can access to this end point
+  // anyApiRoute: publicProcedure.query(() => {
+  //   return 'hello'
+  // }),
+  auth: authRouter,
 })
 
 export type AppRouter = typeof appRouter

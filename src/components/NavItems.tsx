@@ -19,7 +19,7 @@ const NavItems = () => {
       {PRODUCT_CATEGORIES.map((category) => (
         <NavigationMenuItem
           key={category.title}
-          className='border border-input bg-background hover:bg-accent hover:text-accent-foreground rounded-md'
+          className=''
         >
           <NavigationMenuTrigger className='tracking-widest'>{formatToUpperCase(category.title)}</NavigationMenuTrigger>
           <NavigationMenuContent>

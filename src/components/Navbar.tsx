@@ -7,6 +7,7 @@ import Cart from './Cart'
 import Link from 'next/link'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
 import { ANNOUNCEMENT_BAR } from '@/config'
+import Profile from './Profile'
 
 const Navbar = () => {
   const user = null
@@ -30,13 +31,13 @@ const Navbar = () => {
             </p>
           </Link>
         </div>
-        <div className='gap-x-2 flex flex-row items-center justify-end w-1/3'>
+        <div className='gap-x-1 flex flex-row items-center justify-end w-1/3'>
           <div>
             <p className='text-xs tracking-widest px-2'>
               QUESTIONS? (818) 206-8764
             </p>
           </div>
-          <ModeToggle />
+          <Profile />
           <Cart />
           <ModeToggle />
         </div>
