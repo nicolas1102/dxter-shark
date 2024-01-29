@@ -1,6 +1,6 @@
 'use client'
 
-import { HOME_CAROUSEL } from '@/config'
+import { HOME_CAROUSEL } from '@/config/const'
 import { Card, CardContent } from '@/components/ui/card'
 import {
   Carousel,

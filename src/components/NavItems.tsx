@@ -8,7 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu'
-import { PRODUCT_CATEGORIES } from '@/config'
+import { PRODUCT_CATEGORIES } from '@/config/const'
 import React from 'react'
 import { Featured } from '@/types'
 import { formatToUpperCase } from '@/lib/utils'

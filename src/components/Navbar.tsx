@@ -6,7 +6,7 @@ import ModeToggle from './ModeToggle'
 import Cart from './Cart'
 import Link from 'next/link'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
-import { ANNOUNCEMENT_BAR } from '@/config'
+import { ANNOUNCEMENT_BAR, NAME_PAGE, QUESTIONS_NUMBER } from '@/config/const'
 import Profile from './Profile'
 
 const Navbar = () => {
@@ -26,16 +26,14 @@ const Navbar = () => {
         </div>
         <div className='w-1/3'>
           <Link href='/'>
-            <p className=' text-3xl font-extrabold tracking-widest text-center  text-primary sm:text-4xl'>
-              YOUNGLA
+            <p className=' text-2xl font-extrabold tracking-wider text-center text-primary sm:text-3xl'>
+              {NAME_PAGE}
             </p>
           </Link>
         </div>
         <div className='gap-x-1 flex flex-row items-center justify-end w-1/3'>
           <div>
-            <p className='text-xs tracking-widest px-2'>
-              QUESTIONS? (818) 206-8764
-            </p>
+            <p className='text-xs tracking-wider px-2'>{QUESTIONS_NUMBER}</p>
           </div>
           <Profile />
           <Cart />
