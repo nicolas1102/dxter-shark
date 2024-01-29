@@ -1,4 +1,4 @@
-import { AuthCredentialsValidator } from '../lib/validators/account-credentials-validator';
+import { AuthCredentialsValidator, SignUpCredentialsValidator } from '../lib/validators/account-credentials-validator';
 import { publicProcedure, router } from './trpc';
 import { getPayloadClient } from '../get-payload';
 import { TRPCError } from '@trpc/server';
@@ -7,7 +7,7 @@ import { z } from 'zod';
 export const authRouter = router({
   // 'publicProcedure' means that literlly anoyine can go into this endpoint, they don't need to be logged in to do
   createPayloadUser: publicProcedure
-    .input(AuthCredentialsValidator)
+    .input(SignUpCredentialsValidator)
     .mutation(async ({ input }) => {
       const { email, password } = input
       const payload = await getPayloadClient()
@@ -54,6 +54,27 @@ export const authRouter = router({
       if (!isVerified) throw new TRPCError({ code: 'UNAUTHORIZED' })
 
       return { success: true }
+    }),
 
-    })
+  signIn: publicProcedure.input(AuthCredentialsValidator).mutation(async ({ input, ctx }) => {
+    const { email, password } = input
+    const payload = await getPayloadClient()
+    const { res } = ctx
+
+    try {
+      await payload.login({
+        collection: 'users',
+        data: {
+          email,
+          password
+        },
+        // to set the cookie "token for being logged in". This req comes as context for the express
+        res,
+      })
+      return { success: true }
+    } catch (error) {
+      // if the email or the password is incorrect or both
+      throw new TRPCError({ code: 'UNAUTHORIZED' })
+    }
+  }),
 })

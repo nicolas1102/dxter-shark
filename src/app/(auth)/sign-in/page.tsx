@@ -9,72 +9,80 @@ import Link from 'next/link'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import {
-  TSignUpCredentialsValidator,
-  SignUpCredentialsValidator,
+  TAuthCredentialsValidator,
+  AuthCredentialsValidator,
 } from '@/lib/validators/account-credentials-validator'
 import { trpc } from '@/trpc/client'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { toast } from 'sonner'
 import { ZodError } from 'zod'
 import { Icons } from '@/components/Icons'
 
 const Page = () => {
+  // reciving params in the client side
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const isSeller = searchParams.get('as') === 'seller'
+  const origin = searchParams.get('origin') // to make redirections
+
+  const continueAsSeller = () => {
+    router.push('?as=seller')
+  }
+
+  const continueAsBuyer = () => {
+    router.push('/sign-in', undefined) // undefined is to clear the url parameters
+  }
+
   // register help us to handle the state of the inputs.
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TSignUpCredentialsValidator>(
+  } = useForm<TAuthCredentialsValidator>(
     /* we are telling (with '<TAuthCredentialsValidator>') to register what to expect (we use this register function down bellow in each input) */
     {
-      resolver: zodResolver(SignUpCredentialsValidator),
+      resolver: zodResolver(AuthCredentialsValidator),
     }
   )
 
-  const router = useRouter()
+  const { mutate: signIn, isLoading } = trpc.auth.signIn.useMutation({
+    onSuccess: () => {
+      toast.success('Signed in successfully')
+      router.refresh()
 
-  // example where we get the info return by a endpoind.the type of the data variable depends of what do we return in our backend (index.ts file) in that endpoint
-  // const { data } = trpc.auth.useQuery()
-  // console.log(data);
-
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
-    // callbacks
-    onError: (error) => {
-      // there's already a user with the email
-      if (error.data?.code === 'CONFLICT') {
-        toast.error('This email is already in use. Sign in instead?')
-        return
-      }
-      // check if in the zod validation there's an error (like the password is not long enough)
-      if (error instanceof ZodError) {
-        toast.error(error.issues[0].message)
+      // we redirected back where the user was at, if he try to go to this page if he's logged in
+      if (origin) {
+        router.push(`/${origin}`)
         return
       }
 
-      // default message
-      toast.error('Something went worng. Please try again.')
+      if (isSeller) {
+        router.push('/sell')
+        return
+      }
+
+      // if the user is just an user
+      router.push('/')
     },
-    onSuccess: ({ sentToEmail }) => {
-      toast.success(`Verification email sent to ${sentToEmail}.`)
-      router.push('/verify-email?to=' + sentToEmail)
+    onError: (error) => {
+      if (error.data?.code === 'UNAUTHORIZED') {
+        toast.error('Invalid email or password')
+        return
+      }
     },
   })
 
-  const onSubmit = ({
-    email,
-    password,
-    confirmPassword,
-  }: TSignUpCredentialsValidator) => {
-    mutate({ email, password, confirmPassword })
+  const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
+    signIn({ email, password })
   }
 
   return (
     <div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0'>
       <Link
-        href='./sign-in'
+        href='./sign-up'
         className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 absolute right-4 top-4 md:right-8 md:top-8 z-10 tracking-widest'
       >
-        SIGN IN
+        SIGN UP
         <ArrowRight className='h-4 w-4 mx-1' />
       </Link>
       <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
@@ -82,9 +90,11 @@ const Page = () => {
           <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
             <Icons.logoBlack className='dark:fill-white' />
           </div>
-          <h1 className='text-2xl tracking-widest p-3'>CREATE AN ACCOUNT</h1>
+          <h1 className='text-2xl tracking-widest p-3'>
+            SIGN IN TO YOUR {isSeller ? 'SELLER ' : ''}ACCOUNT
+          </h1>
           <p className='text-sm tracking-wider'>
-            Please fill in the information below
+            Please enter your e-mail and password
           </p>
         </div>
 
@@ -109,10 +119,10 @@ const Page = () => {
                 <Label htmlFor='password'>Password</Label>
                 <Input
                   {...register('password')}
+                  type='password'
                   className={cn({
                     'focus-visible:ring-red-500': errors.password,
                   })}
-                  type='password'
                   placeholder='yourpassword'
                 />
                 {errors?.password && (
@@ -121,25 +131,8 @@ const Page = () => {
                   </p>
                 )}
               </div>
-              <div className='grid gap-1 py-2'>
-                <Label htmlFor='password'>Confirm password</Label>
-                <Input
-                  {...register('confirmPassword')}
-                  type='password'
-                  className={cn({
-                    'focus-visible:ring-red-500': errors.confirmPassword,
-                  })}
-                  placeholder='yourpassword'
-                />
-                {errors?.confirmPassword && (
-                  <p className='text-sm text-red-500'>
-                    {errors.confirmPassword.message}
-                  </p>
-                )}
-              </div>
-
               <Button className='tracking-widest dark:font-semibold'>
-                SIGN UP
+                SIGN IN
               </Button>
             </div>
             <div className='flex justify-center'>
@@ -148,13 +141,46 @@ const Page = () => {
                   variant: 'link',
                   className: 'gap-1.5',
                 })}
-                href='/sign-in'
+                href='/sign-up'
               >
-                Already have an account? Sign In
+                Don&apos;t have an account? Sign-up
                 <ArrowRight className='h-4 w-4' />
               </Link>
             </div>
           </form>
+
+          <div className='relative'>
+            <div
+              aria-hidden='true'
+              className='absolute inset-0 flex items-center'
+            >
+              <span className='w-full border-t' />
+            </div>
+            <div className='relative flex justify-center text-xs uppercase'>
+              <span className='bg-background px-2 text-muted-foreground'>
+                or
+              </span>
+            </div>
+          </div>
+          {isSeller ? (
+            <Button
+              onClick={continueAsBuyer}
+              variant='secondary'
+              disabled={isLoading}
+              className='tracking-widest dark:font-semibold'
+            >
+              CONTINUE AS CUSTOMER
+            </Button>
+          ) : (
+            <Button
+              onClick={continueAsSeller}
+              variant='secondary'
+              disabled={isLoading}
+              className='tracking-widest dark:font-semibold'
+            >
+              CONTINUE AS SELLER
+            </Button>
+          )}
         </div>
       </div>
     </div>
