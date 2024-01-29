@@ -2,6 +2,7 @@ import { AuthCredentialsValidator } from '../lib/validators/account-credentials-
 import { publicProcedure, router } from './trpc';
 import { getPayloadClient } from '../get-payload';
 import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
 
 export const authRouter = router({
   // 'publicProcedure' means that literlly anoyine can go into this endpoint, they don't need to be logged in to do
@@ -34,5 +35,25 @@ export const authRouter = router({
       })
 
       return { succesful: true, sentToEmail: email }
+    }),
+
+  verifyEmail: publicProcedure
+    .input(z.object({ token: z.string() }))
+    // we dont use 'motation' cause we are not changing any data, We're just reading
+    .query(async ({ input }) => {
+      const { token } = input
+
+      const payload = await getPayloadClient()
+      const isVerified = await payload.verifyEmail({
+        collection: 'users',
+        token,
+      })
+
+      // if isVerified is successful (equal true), that means in the database (mongodb in this case) the users got a true in the '_verifield' field
+
+      if (!isVerified) throw new TRPCError({ code: 'UNAUTHORIZED' })
+
+      return { success: true }
+
     })
 })

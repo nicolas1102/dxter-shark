@@ -13,6 +13,9 @@ import {
   AuthCredentialsValidator,
 } from '@/lib/validators/account-credentials-validator'
 import { trpc } from '@/trpc/client'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { ZodError } from 'zod'
 
 const Page = () => {
   // register help us to handle the state of the inputs.
@@ -27,11 +30,34 @@ const Page = () => {
     }
   )
 
+  const router = useRouter()
+
   // example where we get the info return by a endpoind.the type of the data variable depends of what do we return in our backend (index.ts file) in that endpoint
   // const { data } = trpc.auth.useQuery()
   // console.log(data);
 
-  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({})
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+    // callbacks
+    onError: (error) => {
+      // there's already a user with the email
+      if (error.data?.code === 'CONFLICT') {
+        toast.error('This email is already in use. Sign in instead?')
+        return
+      }
+      // check if in the zod validation there's an error (like the password is not long enough)
+      if (error instanceof ZodError) {
+        toast.error(error.issues[0].message)
+        return
+      }
+
+      // default message
+      toast.error('Something went worng. Please try again.')
+    },
+    onSuccess: ({ sentToEmail }) => {
+      toast.success(`Verification email sent to ${sentToEmail}.`)
+      router.push('/verify-email?to=' + sentToEmail)
+    },
+  })
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
     mutate({ email, password })
