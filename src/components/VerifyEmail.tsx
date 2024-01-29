@@ -16,12 +16,12 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
   if (isError) {
     return (
       <div className='flex flex-col items-center gap-2'>
-        <div className='relative mb-4 h-40 w-40 text-muted-foreground'>
+        <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
           <Icons.logoBlack className='dark:fill-white' />
         </div>
         <XCircle className='h-8 w-8 text-red-600' />
-        <h3 className='font-semibold text-xl'>There was a problem.</h3>
-        <p className='text-muted-foreground text-sm'>
+        <h3 className='tracking-widest text-2xl'>THERE WAS A PROBLEM.</h3>
+        <p className='text-muted-foreground'>
           This token is not valid or might be expired. Please try again.
         </p>
       </div>
@@ -31,15 +31,15 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
   if (data?.success) {
     return (
       <div className='flex h-full flex-col items-center justify-center'>
-        <div className='relative mb-4 h-40 w-40 text-muted-foreground'>
+        <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
           <Icons.logoBlack className='dark:fill-white' />
         </div>
-        <h3 className='font-semibold text-2xl'>You&apos;re all set!</h3>
+        <h3 className='tracking-widest text-2xl'>YOU&apos;RE ALL SET!</h3>
         <p className='text-muted-foreground text-center mt-1'>
           Thank you for verifying your email.
         </p>
-        <Link className={buttonVariants({ className: 'mt-4' })} href='/sign-in'>
-          Sign In
+        <Link className={buttonVariants({ className: 'mt-4 tracking-widest' })} href='/sign-in'>
+          SING IN
         </Link>
       </div>
     )
@@ -48,12 +48,12 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
   if (isLoading) {
     return (
       <div className='flex flex-col items-center gap-2'>
-        <div className='animate-pulse relative mb-4 h-40 w-40 text-muted-foreground'>
+        <div className='animate-pulse relative mb-4 h-32 w-32 text-muted-foreground'>
           <Icons.logoBlack className='dark:fill-white' />
         </div>
         <Loader2 className='animate-spin h-8 w-8 text-zinc-300' />
-        <h3 className='font-semibold text-xl'>Verifying...</h3>
-        <p className='text-muted-foreground text-sm'>
+        <h3 className='tracking-widest text-2xl'>VERIFYING...</h3>
+        <p className='text-muted-foreground'>
           This won&apos;t take long.
         </p>
       </div>

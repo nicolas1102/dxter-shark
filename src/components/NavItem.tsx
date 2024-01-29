@@ -1,14 +1,9 @@
 import { cn } from '@/lib/utils'
 import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import React from 'react'
+import { ArrowRight } from 'lucide-react'
 
 const NavItem = React.forwardRef<
   React.ElementRef<'a'>,
@@ -20,7 +15,7 @@ const NavItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+            'select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex flex-row items-center justify-between',
             className
           )}
           {...props}
@@ -29,6 +24,7 @@ const NavItem = React.forwardRef<
           <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
             {children}
           </p>
+          <ArrowRight className='h-4 w-4' />
         </a>
       </NavigationMenuLink>
     </li>

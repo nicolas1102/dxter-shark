@@ -16,6 +16,7 @@ import { trpc } from '@/trpc/client'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { ZodError } from 'zod'
+import { Icons } from '@/components/Icons'
 
 const Page = () => {
   // register help us to handle the state of the inputs.
@@ -68,13 +69,16 @@ const Page = () => {
       <div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0'>
         <Link
           href='./sign-in'
-          className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 absolute right-4 top-4 md:right-8 md:top-8 z-10'
+          className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 absolute right-4 top-4 md:right-8 md:top-8 z-10 tracking-widest'
         >
-          Sign In
+          SIGN IN
           <ArrowRight className='h-4 w-4 mx-1' />
         </Link>
         <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
           <div className='flex flex-col items-center space-y-2 text-center'>
+            <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
+              <Icons.logoBlack className='dark:fill-white' />
+            </div>
             <h1 className='text-2xl tracking-widest p-3'>CREATE AN ACCOUNT</h1>
             <p className='text-sm tracking-wider'>
               Please fill in the information below
@@ -107,7 +111,7 @@ const Page = () => {
                   />
                 </div>
 
-                <Button>Sign up</Button>
+                <Button className='tracking-widest'>SIGN UP</Button>
               </div>
             </form>
           </div>
