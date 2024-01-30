@@ -4,8 +4,6 @@ export const NAME_PAGE = 'DEXTER SHARK'
 
 export const ANNOUNCEMENT_BAR = 'FREE SHIPPING FOR ALL U.S ORDERS OVER $75'
 
-export const QUESTIONS_NUMBER = 'QUESTIONS? (818) 206-8764'
-
 export const PRODUCT_CATEGORIES: {
   title: string
   value: string

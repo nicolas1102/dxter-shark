@@ -1,0 +1,1 @@
+1. in the navigation-menu.tsx component, we have to use in the client, casue it generate an error. MF!!!!

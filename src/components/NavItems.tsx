@@ -19,7 +19,6 @@ const NavItems = () => {
       {PRODUCT_CATEGORIES.map((category) => (
         <NavigationMenuItem
           key={category.title}
-          className=''
         >
           <NavigationMenuTrigger className='tracking-widest'>{formatToUpperCase(category.title)}</NavigationMenuTrigger>
           <NavigationMenuContent>
