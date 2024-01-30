@@ -63,6 +63,7 @@ const Page = () => {
 
       // if the user is just an user
       router.push('/')
+      router.refresh()
     },
     onError: (error) => {
       if (error.data?.code === 'UNAUTHORIZED') {

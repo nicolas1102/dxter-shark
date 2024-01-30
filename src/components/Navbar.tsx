@@ -4,7 +4,7 @@ import Cart from './Cart'
 import Link from 'next/link'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
 import { ANNOUNCEMENT_BAR, NAME_PAGE } from '@/config/const'
-import Profile from './Profile'
+import Profile from './ProfileNav'
 import { getServerSideUser } from '@/lib/payload-utils'
 import { cookies } from 'next/headers'
 
