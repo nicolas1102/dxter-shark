@@ -89,7 +89,7 @@ const Page = () => {
       <div className='mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]'>
         <div className='flex flex-col items-center space-y-2 text-center'>
           <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
-            <Icons.logoBlack className='dark:fill-white' />
+            <Icons.logo className='dark:fill-white' />
           </div>
           <h1 className='text-2xl tracking-widest p-3'>
             SIGN IN TO YOUR {isSeller ? 'SELLER ' : ''}ACCOUNT

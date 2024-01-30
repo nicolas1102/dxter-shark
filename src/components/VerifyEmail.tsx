@@ -17,7 +17,7 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
     return (
       <div className='flex flex-col items-center gap-2'>
         <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
-          <Icons.logoBlack className='dark:fill-white' />
+          <Icons.logo className='dark:fill-white' />
         </div>
         <XCircle className='h-8 w-8 text-red-600' />
         <h3 className='tracking-widest text-2xl'>THERE WAS A PROBLEM.</h3>
@@ -32,7 +32,7 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
     return (
       <div className='flex h-full flex-col items-center justify-center'>
         <div className='relative mb-4 h-32 w-32 text-muted-foreground'>
-          <Icons.logoBlack className='dark:fill-white' />
+          <Icons.logo className='dark:fill-white' />
         </div>
         <h3 className='tracking-widest text-2xl'>YOU&apos;RE ALL SET!</h3>
         <p className='text-muted-foreground text-center mt-1'>
@@ -49,7 +49,7 @@ const VerifyEmail = ({ token }: VerifyEmailProps) => {
     return (
       <div className='flex flex-col items-center gap-2'>
         <div className='animate-pulse relative mb-4 h-32 w-32 text-muted-foreground'>
-          <Icons.logoBlack className='dark:fill-white' />
+          <Icons.logo className='dark:fill-white' />
         </div>
         <Loader2 className='animate-spin h-8 w-8 text-zinc-300' />
         <h3 className='tracking-widest text-2xl'>VERIFYING...</h3>

@@ -3,10 +3,11 @@ import ModeToggle from './ModeToggle'
 import Cart from './Cart'
 import Link from 'next/link'
 import { NavigationMenu } from '@/components/ui/navigation-menu'
-import { ANNOUNCEMENT_BAR, NAME_PAGE } from '@/config/const'
+import { ANNOUNCEMENT_BAR } from '@/config/const'
 import Profile from './ProfileNav'
 import { getServerSideUser } from '@/lib/payload-utils'
 import { cookies } from 'next/headers'
+import { Icons } from './Icons'
 
 const Navbar = async () => {
   const nextCookies = cookies()
@@ -26,9 +27,13 @@ const Navbar = async () => {
           <NavItems />
         </div>
         <div className='w-1/3'>
-          <Link href='/'>
+          <Link href='/' className='flex flex-row justify-center'>
             <p className=' text-3xl font-medium tracking-wider text-center text-primary sm:text-4xl'>
-              {NAME_PAGE}
+              DXTER
+            </p>
+            <Icons.logo className='dark:fill-white w-12 h-12 mx-1' />
+            <p className=' text-3xl font-medium tracking-wider text-center text-primary sm:text-4xl'>
+              SHARK
             </p>
           </Link>
         </div>

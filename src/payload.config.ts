@@ -23,7 +23,7 @@ export default buildConfig({
     // use by the admin dashboard. just for the backend
     bundler: webpackBundler(),
     meta: {
-      titleSuffix: '- Youngla',
+      titleSuffix: '- Dxter Shark',
       favicon: '/favicon.ico'
     }
   },

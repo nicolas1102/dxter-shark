@@ -18,7 +18,7 @@ const VerifyEmailPage = ({ searchParams }: VerifyEmailPageProps) => {
         ) : (
           <div className='flex h-full flex-col items-center justify-center space-y-1'>
             <div className='relative mb-4 h-40 w-40 text-muted-foreground'>
-              <Icons.logoBlack className='dark:fill-white' />
+              <Icons.logo className='dark:fill-white' />
             </div>
             <h3 className='font-semibold text-2xl'>Check your email</h3>
 

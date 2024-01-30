@@ -1,7 +1,5 @@
 import type { ImageInterface, Featured } from '@/types'
 
-export const NAME_PAGE = 'DEXTER SHARK'
-
 export const ANNOUNCEMENT_BAR = 'FREE SHIPPING FOR ALL U.S ORDERS OVER $75'
 
 export const PRODUCT_CATEGORIES: {
@@ -77,13 +75,13 @@ export const PRODUCT_CATEGORIES: {
 
 export const HOME_CAROUSEL = [
   {
-    about: 'Youngla for her',
+    about: 'Dxter Shark for her',
     href: '#',
     imageSrc: '/home-carousel/YFH_Jan-18th_2024_1400x.webp',
     buttonDescription: 'Shop Now'
   },
   {
-    about: 'Youngla Coming Soon',
+    about: 'Dxter Shark Coming Soon',
     href: '#',
     imageSrc: '/home-carousel/01.30.24-CSoon_Desktop_1400x.webp',
     buttonDescription: 'Coming Soon'
