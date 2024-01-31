@@ -5,6 +5,7 @@ import { CollectionConfig } from 'payload/types';
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  // verification
   auth: {
     // we configure the email verification
     verify: {
@@ -17,6 +18,10 @@ export const Users: CollectionConfig = {
   access: {
     read: () => true,
     create: () => true,
+  },
+  admin: {
+    hidden: ({ user }) => user.role !== 'admin',
+    defaultColumns: ['id'],
   },
   // every entry in the database row
   fields: [

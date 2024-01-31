@@ -17,10 +17,10 @@ const NavItems = () => {
   return (
     <NavigationMenuList className='flex justify-start gap-x-1'>
       {PRODUCT_CATEGORIES.map((category) => (
-        <NavigationMenuItem
-          key={category.title}
-        >
-          <NavigationMenuTrigger className='tracking-widest'>{formatToUpperCase(category.title)}</NavigationMenuTrigger>
+        <NavigationMenuItem key={category.title}>
+          <NavigationMenuTrigger className='tracking-widest'>
+            {formatToUpperCase(category.title)}
+          </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className='grid w-[400px] gap-x-3 gap-y-2 p-7 md:w-[500px] md:grid-cols-2 lg:w-[700px]'>
               <li className='row-span-5'>
@@ -38,6 +38,11 @@ const NavItems = () => {
                   </Link>
                 </NavigationMenuLink>
               </li>
+              {/* TODO: arreglar links */}
+              <NavItem
+                title='All Products'
+                href={category.title === 'For Him' ? '/for-him' : '/for-her'}
+              />
               {category.featured.map((item: Featured) => (
                 <NavItem key={item.title} title={item.title} href={item.href} />
               ))}

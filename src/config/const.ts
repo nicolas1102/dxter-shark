@@ -19,10 +19,6 @@ export const PRODUCT_CATEGORIES: {
       },
       featured: [
         {
-          title: 'All Products',
-          href: '#',
-        },
-        {
           title: 'Tanks',
           href: '#',
         },
@@ -49,10 +45,6 @@ export const PRODUCT_CATEGORIES: {
         alt: 'for her',
       },
       featured: [
-        {
-          title: 'All Products',
-          href: '#',
-        },
         {
           title: 'Bras',
           href: '#',

@@ -9,6 +9,10 @@
 export interface Config {
   collections: {
     users: User;
+    reviews: Review;
+    products: Product;
+    media: Media;
+    orders: Order;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -24,9 +28,101 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password: string | null;
+}
+export interface Review {
+  id: string;
+  user?: (string | null) | User;
+  review?: string | null;
+  rating: number;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+  genre: 'for_him' | 'for_her';
+  category: 'Tanks' | 'Shirts' | 'Shorts' | 'Joggers' | 'Bras' | 'Tops' | 'Leggins';
+  description: string;
+  material?: string | null;
+  fit?: string | null;
+  model?: string | null;
+  product_item: {
+    color_name: string;
+    color_hex: string;
+    xs_quantity: number;
+    s_quantity: number;
+    m_quantity: number;
+    l_quantity: number;
+    xl_quantity: number;
+    xxl_quantity: number;
+    images: {
+      image: string | Media;
+      id?: string | null;
+    }[];
+    id?: string | null;
+  }[];
+  rating?: number | null;
+  number_reviews?: number | null;
+  reviews?: (string | Review)[] | null;
+  approvedForSale?: ('pending' | 'approved' | 'denied') | null;
+  priceId?: string | null;
+  stripeId?: string | null;
+  user?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+}
+export interface Media {
+  id: string;
+  description: string;
+  user?: (string | null) | User;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+export interface Order {
+  id: string;
+  _isPaid: boolean;
+  user: string | User;
+  products: (string | Product)[];
+  updatedAt: string;
+  createdAt: string;
 }
 export interface PayloadPreference {
   id: string;
