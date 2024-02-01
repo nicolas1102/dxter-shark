@@ -37,7 +37,7 @@ const ProductReel = (props: ProductReelProps) => {
       <div className='md:flex md:items-center md:justify-between mb-4'>
         <div className='max-w-2xl px-4 lg:max-w-4xl lg:px-0'>
           {title ? (
-            <h1 className='text-lg font-light tracking-widest text-primary sm:text-2xl'>
+            <h1 className='text-lg tracking-widest text-primary sm:text-2xl'>
               {title.toUpperCase()}
             </h1>
           ) : null}

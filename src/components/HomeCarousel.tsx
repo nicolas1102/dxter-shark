@@ -16,7 +16,7 @@ import { formatToUpperCase } from '@/lib/utils'
 export function HomeCarousel() {
   return (
     <Carousel
-      className='w-full flex flex-col mb-7 mt-3'
+      className='w-full flex flex-col mb-20 mt-3'
       opts={{
         align: 'center',
         loop: true,
@@ -35,7 +35,7 @@ export function HomeCarousel() {
           >
             <div className='p-3 md:p-1'>
               <Card className='overflow-hidden'>
-                <CardContent className='flex items-center justify-center p-6 h-96 md:h-96 relative'>
+                <CardContent className='flex items-center justify-center p-6 h-96 md:h-[600px] relative'>
                   <Image
                     src={item.imageSrc}
                     alt={item.about}

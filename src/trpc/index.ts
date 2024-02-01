@@ -47,7 +47,7 @@ export const appRouter = router({
           ...parsedQueryOpts
         },
         sort,
-        depth: 1, // fetch one level depth
+        depth: 2, // fetch one level depth
         limit, // partimos el resultado
         page,
       })
