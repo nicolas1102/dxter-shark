@@ -20,18 +20,22 @@ export const PRODUCT_CATEGORIES: {
       featured: [
         {
           title: 'Tanks',
+          value: 'tanks',
           href: '#',
         },
         {
           title: 'Shirts',
+          value: 'shirts',
           href: '#',
         },
         {
           title: 'Shorts',
+          value: 'shorts',
           href: '#',
         },
         {
           title: 'Joggers',
+          value: 'joggers',
           href: '#',
         },
       ],
@@ -47,18 +51,22 @@ export const PRODUCT_CATEGORIES: {
       featured: [
         {
           title: 'Bras',
+          value: 'bras',
           href: '#',
         },
         {
           title: 'Tops',
+          value: 'tops',
           href: '#',
         },
         {
           title: 'Shorts',
+          value: 'shorts',
           href: '#',
         },
         {
           title: 'Leggins',
+          value: 'leggins',
           href: '#',
         },
       ],

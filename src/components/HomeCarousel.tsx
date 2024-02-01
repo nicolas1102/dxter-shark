@@ -16,7 +16,7 @@ import { formatToUpperCase } from '@/lib/utils'
 export function HomeCarousel() {
   return (
     <Carousel
-      className='w-full flex flex-col m-2'
+      className='w-full flex flex-col mb-7 mt-3'
       opts={{
         align: 'center',
         loop: true,

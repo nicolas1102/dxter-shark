@@ -5,6 +5,7 @@ export interface ImageInterface {
 
 export interface Featured {
   title: string
+  value: string
   href: string
 }
 
@@ -14,4 +15,11 @@ export interface VerifyEmailPageProps {
 
 export interface VerifyEmailProps {
   token: string
+}
+
+export interface ProductReelProps {
+  title: string
+  subtitle?: string
+  href?: string
+  query: TQueryValidator
 }

@@ -213,33 +213,6 @@ export const Products: CollectionConfig = {
         condition: () => false,
       }
     },
-    // everybody can create a product on our store, which doesn't mean it's good, so...
-    {
-      // admins are the only ones that can change this. users cannot
-      name: 'approvedForSale',
-      label: 'Product Status',
-      defaultValue: 'pending',
-      access: {
-        create: ({ req }) => req.user.role === 'admin',
-        read: ({ req }) => req.user.role === 'admin',
-        update: ({ req }) => req.user.role === 'admin',
-      },
-      type: 'select',
-      options: [
-        {
-          label: 'Pending verification',
-          value: 'pending',
-        },
-        {
-          label: 'Approved',
-          value: 'approved',
-        },
-        {
-          label: 'Denied',
-          value: 'denied',
-        },
-      ],
-    },
     // stripe product associated. So me can handle the checkout data for payments
     {
       name: 'priceId',
@@ -266,6 +239,33 @@ export const Products: CollectionConfig = {
       admin: {
         hidden: true
       },
+    },
+    // everybody can create a product on our store, which doesn't mean it's good, so...
+    {
+      // admins are the only ones that can change this. users cannot
+      name: 'approvedForSale',
+      label: 'Product Status',
+      defaultValue: 'pending',
+      access: {
+        create: ({ req }) => req.user.role === 'admin',
+        read: ({ req }) => req.user.role === 'admin',
+        update: ({ req }) => req.user.role === 'admin',
+      },
+      type: 'select',
+      options: [
+        {
+          label: 'Pending verification',
+          value: 'pending',
+        },
+        {
+          label: 'Approved',
+          value: 'approved',
+        },
+        {
+          label: 'Denied',
+          value: 'denied',
+        },
+      ],
     },
     {
       name: 'user',
