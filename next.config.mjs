@@ -1,4 +1,16 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
+// we authorized send images from the local host
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'localhost',
+        pathname: '**',
+        port: '3000',
+        protocol: 'http',
+      },
+    ],
+  },
+}
 
-export default nextConfig;
+export default nextConfig

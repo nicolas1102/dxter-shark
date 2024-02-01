@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { cn, formatPrice } from '@/lib/utils'
 import { PRODUCT_CATEGORIES } from '@/config/const'
 import Image from 'next/image'
+import ImageSlider from './ImageSlider'
 
 interface ProductListingProps {
   product: Product | null
@@ -26,17 +27,25 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
 
   if (!product || !isVisible) return <ProductPlaceholder />
 
+  // TODO: Fix product collection categories
   // show human readable product categories. Primero sacamos las categorias
-  const categories = PRODUCT_CATEGORIES.flatMap((category) =>
-    category.featured.map((featuredItem) => ({
-      label: featuredItem.title,
-      value: featuredItem.value,
-    }))
-  )
+  // const categories = PRODUCT_CATEGORIES.flatMap((category) =>
+  //   category.featured.map((featuredItem) => ({
+  //     label: featuredItem.title,
+  //     value: featuredItem.value,
+  //   }))
+  // )
+  // const label = categories.find(
+  //   ({ value }) => value === product.category
+  // )?.label
 
-  const label = categories.find(
-    ({ value }) => value === product.category
-  )?.label
+  const validUrls = product.product_item
+    .map(({ images }) =>
+      images.map(({ image }) => (typeof image === 'string' ? image : image.url))
+    )
+    .flat()
+    // we filter the undefined or null values
+    .filter(Boolean) as string[]
 
   if (isVisible && product) {
     return (
@@ -48,12 +57,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
         href={`/product/${product.id}`}
       >
         <div className='flex flex-col w-full'>
-          <Image 
-            src='/drive/media/475 - super villian red - 1.webp'
-            width={300}
-            height={500}
-            alt='me vale monda'
-          />
+          <ImageSlider urls={validUrls} />
           <h3 className='mt-4 text-sm text-primary tracking-widest'>
             {product.name.toUpperCase()}
           </h3>
@@ -70,12 +74,12 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
 const ProductPlaceholder = () => {
   return (
     <div className='flex flex-col w-full'>
-      <div className='relative bg-zinc-100 aspect-square w-full overflow-hidden rounded-xl'>
+      <div className='relative bg-zinc-100 h-96 w-full overflow-hidden '>
         <Skeleton className='h-full w-full' />
       </div>
-      <Skeleton className='mt-4 w-2/3 h-4 rounded-lg' />
-      <Skeleton className='mt-2 w-16 h-4 rounded-lg' />
-      <Skeleton className='mt-2 w-12 h-4 rounded-lg' />
+      <Skeleton className='mt-4 w-2/3 h-4' />
+      <Skeleton className='mt-2 w-16 h-4' />
+      <Skeleton className='mt-2 w-12 h-4 ' />
     </div>
   )
 }
