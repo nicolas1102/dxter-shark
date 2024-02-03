@@ -126,21 +126,8 @@ export default function Page({ params }: PageProps) {
                 </div>
 
                 {/* colors */}
-                <div className='my-3 '>
-                  <p className='text-muted-foreground'>Color: </p>
-                  <div className='flex flex-row gap-2'>
-                    {colors?.map((color) => (
-                      <span
-                        key={color.color_hex}
-                        className={`h-10 w-10 bg-[${color.color_hex}] border active:border-foreground`}
-                      />
-                    ))}
-                  </div>
-                </div>
-                
-                {/* colors */}
-                <div className='my-3 '>
-                  <p className='text-muted-foreground'>Color: </p>
+                <div className='my-4'>
+                  <p className='text-muted-foreground font-light'>Color: </p>
                   <div className='flex flex-row gap-2'>
                     {colors?.map((color) => (
                       <span
@@ -151,44 +138,81 @@ export default function Page({ params }: PageProps) {
                   </div>
                 </div>
 
-                <div className='mt-4 space-y-6'>
-                  <p className='text-base text-muted-foreground'>
-                    {product.description}
-                  </p>
+                {/* sizes */}
+                <div className='my-3 '>
+                  <p className='text-muted-foreground font-light'>Size: </p>
+                  <div className='flex flex-row gap-2'>
+                    {colors?.map((color) => (
+                      <span
+                        key={color.color_hex}
+                        className='h-10 p-3 flex items-center justify-center border active:border-foreground'
+                      >
+                        <p className='text-center text-muted-foreground font-light '>
+                          Small
+                        </p>
+                      </span>
+                    ))}
+                  </div>
                 </div>
 
-                <div className='mt-6 flex items-center'>
-                  <Check
-                    aria-hidden='true'
-                    className='h-5 w-5 flex-shrink-0 text-green-500'
-                  />
-                  <p className='ml-2 text-sm text-muted-foreground'>
-                    Eligible for instan delivery
-                  </p>
+                <div className='mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start'>
+                  <div className='gap-5'>
+                    <div className='mt-6 flex items-center'>
+                      <Check
+                        aria-hidden='true'
+                        className='h-5 w-5 flex-shrink-0 text-green-500'
+                      />
+                      <p className='ml-2 text-sm text-muted-foreground'>
+                        Eligible for instan delivery
+                      </p>
+                    </div>
+                    <div className='group inline-flex text-sm text-medium'>
+                      <Shield
+                        aria-hidden='true'
+                        className='mr-2 h-5 w-5 flex-shrink-0 text-gray-400'
+                      />
+                      <span className='text-muted-foreground hover:text-gray-700'>
+                        30 Day Return Guarantee
+                      </span>
+                    </div>
+                    <div className='my-5'>
+                      <AddToCartButton product={product} />
+                    </div>
+                  </div>
+                </div>
+
+                <div className='gap-32'>
+                  <div className='mt-4'>
+                    <p className='text-base font-light'>
+                      <span className='font-medium'>MATERIAL: </span>
+                      {product.material}
+                    </p>
+                  </div>
+
+                  <div className='mt-4 '>
+                    <p className='text-base font-light'>
+                      <span className='font-medium'>FIT: </span>
+                      {product.fit}
+                    </p>
+                  </div>
+
+                  <div className='mt-4 '>
+                    <p className='text-base font-light'>
+                      <span className='font-medium'>DESIGN: </span>
+                      {product.description}
+                    </p>
+                  </div>
+
+                  <div className='mt-4 '>
+                    <p className='text-base font-light'>
+                      <span className='font-medium'>MODEL: </span>
+                      {product.model}
+                    </p>
+                  </div>
                 </div>
               </section>
             </>
           )}
-          {/* TODO: Add to cart part */}
-
-          <div className='mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start'>
-            <div>
-              <div className='mt-10'>
-                <AddToCartButton product={product} />
-              </div>
-              <div className='mt-6 text-center'>
-                <div className='group inline-flex text-sm text-medium'>
-                  <Shield
-                    aria-hidden='true'
-                    className='mr-2 h-5 w-5 flex-shrink-0 text-gray-400'
-                  />
-                  <span className='text-muted-foreground hover:text-gray-700'>
-                    30 Day Return Guarantee
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
