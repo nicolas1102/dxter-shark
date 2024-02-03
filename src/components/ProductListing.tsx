@@ -27,7 +27,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
 
   if (!product || !isVisible) return <ProductPlaceholder />
 
-  // TODO: Fix product collection categories
+  // TODO: Fix product collection categories y eliminar esto
   // show human readable product categories. Primero sacamos las categorias
   // const categories = PRODUCT_CATEGORIES.flatMap((category) =>
   //   category.featured.map((featuredItem) => ({
