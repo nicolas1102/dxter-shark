@@ -18,7 +18,7 @@ const Profile = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Link
-          className='bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-around p-1.5 rounded-md'
+          className='bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-around p-1.5'
           href='/sign-up'
         >
           <User />
@@ -57,7 +57,7 @@ const Profile = ({ isLoggedIn }: { isLoggedIn: boolean }) => {
     </DropdownMenu>
     // {isLoggedIn ? (
     //   <Link
-    //     className='bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-around p-1.5 rounded-md'
+    //     className='bg-background hover:bg-accent hover:text-accent-foreground h-10 w-10 flex items-center justify-around p-1.5'
     //     href='/profile'
     //   >
     //     <User />

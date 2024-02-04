@@ -52,16 +52,19 @@ export const Products: CollectionConfig = {
       type: 'select',
       options: Array.from(
         new Set(
-          PRODUCT_CATEGORIES.flatMap(category =>
-            category.featured.map(featuredItem => featuredItem.title)
+          PRODUCT_CATEGORIES.flatMap((category) =>
+            category.featured.map((featuredItem) => ({
+              label: featuredItem.title,
+              value: featuredItem.value,
+            }))
           )
         )
-      ).map(label => ({ label: label, value: label })),
+      ),
       required: true,
     },
     {
       name: 'description',
-      label: 'Product Details',
+      label: 'Description',
       type: 'textarea',
       required: true
     },
@@ -84,8 +87,8 @@ export const Products: CollectionConfig = {
       required: false
     },
     {
-      name: 'product_item',
-      label: 'Product Item',
+      name: 'product_items',
+      label: 'Product Items',
       type: 'array',
       minRows: 1,
       maxRows: 20,
@@ -107,60 +110,73 @@ export const Products: CollectionConfig = {
           label: 'Color Hexadecimal',
           type: 'text',
           required: true,
-        },
-        {
-          name: 'xs_quantity',
-          label: 'XS - Quantity',
-          type: 'number',
-          defaultValue: 0,
+        }, {
+          name: 'sizes_quantity',
+          label: 'Sizes Quantity',
+          type: 'array',
+          minRows: 1,
+          maxRows: 1,
           required: true,
-          min: 0,
-          max: 1000,
-        },
-        {
-          name: 's_quantity',
-          label: 'S - Quantity',
-          type: 'number',
-          defaultValue: 0,
-          required: true,
-          min: 0,
-          max: 1000,
-        },
-        {
-          name: 'm_quantity',
-          label: 'M - Quantity',
-          type: 'number',
-          defaultValue: 0,
-          required: true,
-          min: 0,
-          max: 1000,
-        },
-        {
-          name: 'l_quantity',
-          label: 'L - Quantity',
-          type: 'number',
-          defaultValue: 0,
-          required: true,
-          min: 0,
-          max: 1000,
-        },
-        {
-          name: 'xl_quantity',
-          label: 'XL - Quantity',
-          type: 'number',
-          defaultValue: 0,
-          required: true,
-          min: 0,
-          max: 1000,
-        },
-        {
-          name: 'xxl_quantity',
-          label: 'XXL - Quantity',
-          type: 'number',
-          defaultValue: 0,
-          required: true,
-          min: 0,
-          max: 1000,
+          labels: {
+            singular: 'Sizes',
+            plural: 'Sizes',
+          },
+          fields: [
+            {
+              name: 'xsmall',
+              label: 'XSmall',
+              type: 'number',
+              defaultValue: 0,
+              required: true,
+              min: 0,
+              max: 1000,
+            },
+            {
+              name: 'small',
+              label: 'Small',
+              type: 'number',
+              defaultValue: 0,
+              required: true,
+              min: 0,
+              max: 1000,
+            },
+            {
+              name: 'medium',
+              label: 'Medium',
+              type: 'number',
+              defaultValue: 0,
+              required: true,
+              min: 0,
+              max: 1000,
+            },
+            {
+              name: 'large',
+              label: 'Large',
+              type: 'number',
+              defaultValue: 0,
+              required: true,
+              min: 0,
+              max: 1000,
+            },
+            {
+              name: 'xlarge',
+              label: 'XLarge',
+              type: 'number',
+              defaultValue: 0,
+              required: true,
+              min: 0,
+              max: 1000,
+            },
+            {
+              name: 'xxlarge',
+              label: 'XXLarge',
+              type: 'number',
+              defaultValue: 0,
+              required: true,
+              min: 0,
+              max: 1000,
+            },
+          ]
         },
         {
           name: 'images',

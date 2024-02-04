@@ -5,11 +5,16 @@ import ImageGallery from '@/components/ImageGallery'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import ProductReel from '@/components/ProductReel'
 import { fetchProduct } from '@/lib/fetch-product'
-import { formatPrice } from '@/lib/utils'
+import { cn, formatPrice } from '@/lib/utils'
 import { Product } from '@/payload-types'
 import { Check, Shield } from 'lucide-react'
+import { PRODUCT_CATEGORIES } from '@/config/const'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import InfoProductItem from '@/components/InfoProductItem'
+import SizesSelectorProduct from '@/components/ProductSizesSelector'
+import ProductColorSelector from '@/components/ProductColorSelector'
 
 interface PageProps {
   params: {
@@ -17,9 +22,10 @@ interface PageProps {
   }
 }
 
-interface ColorInterface {
-  color_name: string
-  color_hex: string
+export interface SelectionProduct {
+  productId: string | null | undefined
+  colorSelectedId: string | null | undefined
+  sizeSelected: string | null | undefined
 }
 
 const BREADCRUMBS = [
@@ -37,23 +43,21 @@ const BREADCRUMBS = [
 
 export default function Page({ params }: PageProps) {
   const { productId } = params
-
   const [product, setProduct] = useState<Product | null>(null)
-  const [label, setLabel] = useState<string | undefined>('')
-  const [validUrls, setValidUrls] = useState<string[] | null>(null)
-  const [colors, setColors] = useState<ColorInterface[] | null>(null)
-  const [activeIndexColor, setActiveIndexColor] = useState<number>()
+  const [selectionProduct, setSelectionProduct] = useState<
+    SelectionProduct | undefined
+  >()
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const { product, label, validUrls, colors } = await fetchProduct(
-          productId
-        )
+        const product = await fetchProduct(productId)
         setProduct(product)
-        setLabel(label)
-        setValidUrls(validUrls)
-        setColors(colors)
+        setSelectionProduct({
+          productId: product?.id,
+          colorSelectedId: product.product_items[0].id,
+          sizeSelected: 'xsmall',
+        })
       } catch (error) {
         console.error('Error fetching product data: ', error)
       }
@@ -64,6 +68,45 @@ export default function Page({ params }: PageProps) {
   if (!product) {
     // TODO: Make an Skeleton
     return <p>LOADING...</p>
+  }
+
+  const categories = PRODUCT_CATEGORIES.flatMap((category) =>
+    category.featured.map((featuredItem) => ({
+      label: featuredItem.title,
+      value: featuredItem.value,
+    }))
+  )
+
+  const label = categories.find(
+    ({ value }) => value === product.category
+  )?.label
+
+  const validUrls = product.product_items
+    .map(({ images }) =>
+      images.map(({ image }) => (typeof image === 'string' ? image : image.url))
+    )
+    .flat()
+    // we filter the undefined or null values
+    .filter(Boolean) as string[]
+
+  const changeSelectedColor = (colorId: string | null | undefined) => {
+    if (colorId) {
+      setSelectionProduct((prevState) => ({
+        productId: prevState?.productId,
+        colorSelectedId: colorId,
+        sizeSelected: prevState?.sizeSelected,
+      }))
+    }
+  }
+
+  const changeSelectedSize = (sizeSelected: string | null | undefined) => {
+    if (sizeSelected) {
+      setSelectionProduct((prevState) => ({
+        productId: prevState?.productId,
+        colorSelectedId: prevState?.colorSelectedId,
+        sizeSelected: sizeSelected,
+      }))
+    }
   }
 
   return (
@@ -99,128 +142,111 @@ export default function Page({ params }: PageProps) {
         </li>
       </ol>
 
-      <div className='max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-8'>
+      <div className='max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-16 mb-16'>
         {/* Product Images */}
         <div className='lg:row-span-2 lg:mt-0 lg:self-center'>
           {validUrls && <ImageGallery urls={validUrls} />}
         </div>
 
         {/* Product Details */}
-        <div className='lg:max-w-lg lg:self-end'>
-          {product && (
-            <>
-              <div className='mt-4'>
-                <h1 className='text-xl font-extralight tracking-widest text-primary sm:text-2xl'>
-                  {product.name}
-                </h1>
+        {product && (
+          <div className='lg:max-w-lg lg:self-end'>
+            <div className='mt-4'>
+              <h1 className='text-xl font-light tracking-widest text-primary sm:text-2xl'>
+                {product.name}
+                <span className='ml-4 border-l text-muted-foreground border-gray-300 pl-4 text-lg'>
+                  {label}
+                </span>
+              </h1>
+            </div>
+
+            <section className='mt-4'>
+              <div className='flex items-center'>
+                <p className='font-medium text-xl text-muted-foreground '>
+                  {formatPrice(product.price)}
+                </p>
               </div>
 
-              <section className='mt-4'>
-                <div className='flex items-center'>
-                  <p className='font-medium text-xl text-muted-foreground '>
-                    {formatPrice(product.price)}
-                  </p>
-                  <div className='ml-4 border-l text-muted-foreground border-gray-300 pl-4'>
-                    {label}
-                  </div>
-                </div>
+              {/* colors */}
+              <ProductColorSelector
+                product={product}
+                selectionProduct={selectionProduct}
+                changeSelectedColor={changeSelectedColor}
+              />
 
-                {/* colors */}
-                <div className='my-4'>
-                  <p className='text-muted-foreground font-light'>Color: </p>
-                  <div className='flex flex-row gap-2'>
-                    {colors?.map((color) => (
-                      <span
-                        key={color.color_hex}
-                        className={`h-10 w-10 bg-[${color.color_hex}] border active:border-foreground`}
-                      />
-                    ))}
-                  </div>
-                </div>
+              {/* sizes */}
+              <SizesSelectorProduct
+                product={product}
+                selectionProduct={selectionProduct}
+                changeSelectedSize={changeSelectedSize}
+              />
 
-                {/* sizes */}
-                <div className='my-3 '>
-                  <p className='text-muted-foreground font-light'>Size: </p>
-                  <div className='flex flex-row gap-2'>
-                    {colors?.map((color) => (
-                      <span
-                        key={color.color_hex}
-                        className='h-10 p-3 flex items-center justify-center border active:border-foreground'
-                      >
-                        <p className='text-center text-muted-foreground font-light '>
-                          Small
-                        </p>
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                <div className='mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start'>
-                  <div className='gap-5'>
-                    <div className='mt-6 flex items-center'>
-                      <Check
-                        aria-hidden='true'
-                        className='h-5 w-5 flex-shrink-0 text-green-500'
-                      />
-                      <p className='ml-2 text-sm text-muted-foreground'>
-                        Eligible for instan delivery
-                      </p>
-                    </div>
-                    <div className='group inline-flex text-sm text-medium'>
-                      <Shield
-                        aria-hidden='true'
-                        className='mr-2 h-5 w-5 flex-shrink-0 text-gray-400'
-                      />
-                      <span className='text-muted-foreground hover:text-gray-700'>
-                        30 Day Return Guarantee
-                      </span>
-                    </div>
-                    <div className='my-5'>
-                      <AddToCartButton product={product} />
-                    </div>
-                  </div>
-                </div>
-
-                <div className='gap-32'>
-                  <div className='mt-4'>
-                    <p className='text-base font-light'>
-                      <span className='font-medium'>MATERIAL: </span>
-                      {product.material}
+              <div className='mt-10 lg:col-start-1 lg:row-start-2 lg:max-w-lg lg:self-start'>
+                <div className='gap-5'>
+                  <div className='mt-6 flex items-center'>
+                    <Check
+                      aria-hidden='true'
+                      className='h-5 w-5 flex-shrink-0 text-green-500'
+                    />
+                    <p className='ml-2 text-sm text-muted-foreground'>
+                      Eligible for instan delivery
                     </p>
                   </div>
-
-                  <div className='mt-4 '>
-                    <p className='text-base font-light'>
-                      <span className='font-medium'>FIT: </span>
-                      {product.fit}
-                    </p>
+                  <div className='group inline-flex text-sm text-medium'>
+                    <Shield
+                      aria-hidden='true'
+                      className='mr-2 h-5 w-5 flex-shrink-0 text-gray-400'
+                    />
+                    <span className='text-muted-foreground hover:text-gray-700'>
+                      30 Day Return Guarantee
+                    </span>
                   </div>
-
-                  <div className='mt-4 '>
-                    <p className='text-base font-light'>
-                      <span className='font-medium'>DESIGN: </span>
-                      {product.description}
-                    </p>
-                  </div>
-
-                  <div className='mt-4 '>
-                    <p className='text-base font-light'>
-                      <span className='font-medium'>MODEL: </span>
-                      {product.model}
-                    </p>
+                  <div className='my-5'>
+                    <AddToCartButton />
                   </div>
                 </div>
-              </section>
-            </>
-          )}
-        </div>
+              </div>
+
+              <ul className='gap-y-14'>
+                {product.material && (
+                  <InfoProductItem
+                    props={{ title: 'MATERIAL', data: product.material }}
+                  />
+                )}
+                {product.fit && (
+                  <InfoProductItem
+                    props={{ title: 'FIT', data: product.fit }}
+                  />
+                )}
+                {product.description && (
+                  <InfoProductItem
+                    props={{ title: 'DESIGN', data: product.description }}
+                  />
+                )}
+                {product.model && (
+                  <InfoProductItem
+                    props={{ title: 'MODEL', data: product.model }}
+                  />
+                )}
+                <li className='mt-10 w-auto'>
+                  <Image
+                    src='/product-page/size chart (inches).avif'
+                    alt='size chart'
+                    width={500}
+                    height={176}
+                  />
+                </li>
+              </ul>
+            </section>
+          </div>
+        )}
       </div>
 
       {/* Similar components */}
       <ProductReel
         href='/products'
         query={{ category: product.category, limit: 4 }}
-        title={`Similar ${label}`}
+        title={`MORE ${label} YOU MAY ALSO LIKE`}
         subtitle={`Browse similar high-quality ${label} just like '${product.name}'`}
       />
     </MaxWidthWrapper>

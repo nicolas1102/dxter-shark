@@ -21,7 +21,7 @@ const Cart = () => {
   return (
     <Sheet>
       <SheetTrigger className='group -m-2 flex items-center p-2'>
-        <div className='bg-background hover:bg-accent hover:text-accent-foreground h-10 w-20 flex items-center justify-around p-1.5 rounded-md'>
+        <div className='bg-background hover:bg-accent hover:text-accent-foreground h-10 w-20 flex items-center justify-around p-1.5 '>
           <ShoppingCart />
           <span className='h-6 w-px bg-gray-300' aria-hidden='true' />
           <span className='text-sm text-primary font-semibold text-center'>

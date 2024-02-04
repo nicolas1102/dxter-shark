@@ -37,14 +37,15 @@ const ImageGallery = ({ urls }: ImageSliderProps) => {
     )
   }, [swiper, urls])
 
+  // TODO: Change arrow styles
   const activeStyles =
-    'active:scale-[0.97] grid opacity-100 hover:scale-105 absolute top-1/2 -translate-y-1/2 aspect-square h-8 w-8 z-50 place-items-center rounded-full border-2 bg-white border-zinc-500'
+    'active:scale-[0.97] grid opacity-100 hover:scale-105 absolute top-1/2 -translate-y-1/2 aspect-square h-8 w-8 z-50 place-items-center border-2 bg-white border-zinc-500'
 
   const inactiveStyles = 'hidden text-gray-400'
 
   return (
     <>
-      <div className='group relative bg-secondary h-[800px] w-full overflow-hidden'>
+      <div className='group relative h-[600px] w-full overflow-hidden px-10'>
         <div className='absolute z-10 inset-0 opacity-0 group-hover:opacity-100 transition'>
           <button
             onClick={(e) => {
@@ -53,7 +54,7 @@ const ImageGallery = ({ urls }: ImageSliderProps) => {
             }}
             className={cn(activeStyles, 'right-3 transition', {
               [inactiveStyles]: slideConfig.isEnd,
-              'hover:bg-primary-300 text-primary-800 opacity-100':
+              'hover:bg-primary-300 text-primary-800 opacity-100 mx-10':
                 !slideConfig.isEnd,
             })}
             aria-label='next image'
@@ -67,7 +68,7 @@ const ImageGallery = ({ urls }: ImageSliderProps) => {
             }}
             className={cn(activeStyles, 'left-3 transition', {
               [inactiveStyles]: slideConfig.isBeginning,
-              'hover:bg-primary-300 text-primary-800 opacity-100':
+              'hover:bg-primary-300 text-primary-800 opacity-100 mx-10':
                 !slideConfig.isBeginning,
             })}
             aria-label='previous image'
@@ -84,7 +85,7 @@ const ImageGallery = ({ urls }: ImageSliderProps) => {
           className='h-full w-full'
           pagination={{
             renderBullet: (_, className) => {
-              return `<span class='rounded-full transition ${className}'></span>`
+              return `<span class=' transition ${className}'></span>`
             },
           }}
         >

@@ -5,8 +5,6 @@ import { useEffect, useState } from 'react'
 import { Skeleton } from './ui/skeleton'
 import Link from 'next/link'
 import { cn, formatPrice } from '@/lib/utils'
-import { PRODUCT_CATEGORIES } from '@/config/const'
-import Image from 'next/image'
 import ImageSlider from './ImageSlider'
 
 interface ProductListingProps {
@@ -27,19 +25,7 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
 
   if (!product || !isVisible) return <ProductPlaceholder />
 
-  // TODO: Fix product collection categories y eliminar esto
-  // show human readable product categories. Primero sacamos las categorias
-  // const categories = PRODUCT_CATEGORIES.flatMap((category) =>
-  //   category.featured.map((featuredItem) => ({
-  //     label: featuredItem.title,
-  //     value: featuredItem.value,
-  //   }))
-  // )
-  // const label = categories.find(
-  //   ({ value }) => value === product.category
-  // )?.label
-
-  const validUrls = product.product_item
+  const validUrls = product.product_items
     .map(({ images }) =>
       images.map(({ image }) => (typeof image === 'string' ? image : image.url))
     )
@@ -58,11 +44,10 @@ const ProductListing = ({ product, index }: ProductListingProps) => {
       >
         <div className='flex flex-col w-full'>
           <ImageSlider urls={validUrls} />
-          <h3 className='mt-4 text-sm text-primary tracking-widest'>
+          <h3 className='mt-4 text-sm text-primary tracking-widest text-center'>
             {product.name.toUpperCase()}
           </h3>
-          {/* <p className='mt-1 text-sm text-gray-500'>{label}</p> */}
-          <p className='mt-1 font-medium text-sm text-gray-500'>
+          <p className='mt-1 font-sm text-gray-500 text-center'>
             {formatPrice(product.price)}
           </p>
         </div>

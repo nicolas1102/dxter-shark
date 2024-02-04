@@ -43,15 +43,15 @@ const ProductReel = (props: ProductReelProps) => {
           ) : null}
           {/* TODO: Review this. Delete or make it prettier */}
           {subtitle ? (
-            <p className='mt-2 text-sm text-primary-foreground'>{subtitle}</p>
+            <p className='mt-2 text-sm text-primary'>{subtitle}</p>
           ) : null}
         </div>
         {href ? (
           <Link
             href={href}
-            className='text-sm font-medium text-primary md:block bg-background hover:bg-accent hover:text-accent-foreground p-1.5 rounded-md flex items-center flex-row '
+            className='text-sm font-medium text-primary md:block bg-background hover:bg-accent hover:text-accent-foreground p-1.5 flex items-center flex-row '
           >
-            Shop the collection
+            Show the collection
             <span className='ml-2' aria-hidden='true'>&rarr;</span>
           </Link>
         ) : null}
@@ -60,34 +60,6 @@ const ProductReel = (props: ProductReelProps) => {
       <div className='relative'>
         <div className='mt-6 flex items-center w-full'>
           <div className='w-full grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 md:grid-cols-4 md:gap-y-10 lg:gap-x-8'>
-            {map.map((product, i) => (
-              <ProductListing
-                key={`product-${i}`}
-                product={product}
-                index={i}
-              />
-            ))}
-            {map.map((product, i) => (
-              <ProductListing
-                key={`product-${i}`}
-                product={product}
-                index={i}
-              />
-            ))}
-            {map.map((product, i) => (
-              <ProductListing
-                key={`product-${i}`}
-                product={product}
-                index={i}
-              />
-            ))}
-            {map.map((product, i) => (
-              <ProductListing
-                key={`product-${i}`}
-                product={product}
-                index={i}
-              />
-            ))}
             {map.map((product, i) => (
               <ProductListing
                 key={`product-${i}`}

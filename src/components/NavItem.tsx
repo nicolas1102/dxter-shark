@@ -15,7 +15,7 @@ const NavItem = React.forwardRef<
         <a
           ref={ref}
           className={cn(
-            'select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex flex-row items-center justify-between',
+            'select-none space-y-1 p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground flex flex-row items-center justify-between',
             className
           )}
           {...props}

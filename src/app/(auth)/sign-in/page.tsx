@@ -81,7 +81,7 @@ const Page = () => {
     <div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0'>
       <Link
         href='./sign-up'
-        className='inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 absolute right-4 top-4 md:right-8 md:top-8 z-10 tracking-widest'
+        className='inline-flex items-center justify-center whitespace-nowrap  text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2 absolute right-4 top-4 md:right-8 md:top-8 z-10 tracking-widest'
       >
         SIGN UP
         <ArrowRight className='h-4 w-4 mx-1' />
@@ -168,7 +168,7 @@ const Page = () => {
               onClick={continueAsBuyer}
               variant='secondary'
               disabled={isLoading}
-              className='tracking-widest dark:font-semibold'
+              className='tracking-widest dark:font-semibold hover:bg-secondary-foreground hover:text-secondary'
             >
               CONTINUE AS CUSTOMER
             </Button>
@@ -177,7 +177,7 @@ const Page = () => {
               onClick={continueAsSeller}
               variant='secondary'
               disabled={isLoading}
-              className='tracking-widest dark:font-semibold'
+              className='tracking-widest dark:font-semibold hover:bg-secondary-foreground hover:text-secondary'
             >
               CONTINUE AS SELLER
             </Button>

@@ -38,7 +38,7 @@ export interface Review {
   id: string;
   user?: (string | null) | User;
   review?: string | null;
-  rating: number;
+  rating: '0' | '0.5' | '1' | '1.5' | '2' | '2.5' | '3' | '3.5' | '4' | '4.5' | '5';
   updatedAt: string;
   createdAt: string;
 }
@@ -47,20 +47,23 @@ export interface Product {
   name: string;
   price: number;
   genre: 'for_him' | 'for_her';
-  category: 'Tanks' | 'Shirts' | 'Shorts' | 'Joggers' | 'Bras' | 'Tops' | 'Leggins';
+  category: 'tanks' | 'shirts' | 'shorts' | 'joggers' | 'bras' | 'tops' | 'leggins';
   description: string;
   material?: string | null;
   fit?: string | null;
   model?: string | null;
-  product_item: {
+  product_items: {
     color_name: string;
     color_hex: string;
-    xs_quantity: number;
-    s_quantity: number;
-    m_quantity: number;
-    l_quantity: number;
-    xl_quantity: number;
-    xxl_quantity: number;
+    sizes_quantity: {
+      xsmall: number;
+      small: number;
+      medium: number;
+      large: number;
+      xlarge: number;
+      xxlarge: number;
+      id?: string | null;
+    }[];
     images: {
       image: string | Media;
       id?: string | null;
@@ -70,21 +73,20 @@ export interface Product {
   rating?: number | null;
   number_reviews?: number | null;
   reviews?: (string | Review)[] | null;
-  approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   priceId?: string | null;
   stripeId?: string | null;
+  approvedForSale?: ('pending' | 'approved' | 'denied') | null;
   user?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
 }
 export interface Media {
   id: string;
-  description: string;
   user?: (string | null) | User;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
-  filename?: string | null;
+  filename: string;
   mimeType?: string | null;
   filesize?: number | null;
   width?: number | null;

@@ -25,10 +25,10 @@ const AddToCartButton = () => {
         {
           'bg-slate-500': isSuccess,
         },
-        'w-full'
+        'w-full tracking-widest'
       )}
     >
-      {isSuccess ? 'Added' : 'Add to Cart'}
+      {isSuccess ? 'ADDED' : 'ADD TO CART'}
     </Button>
   )
 }
