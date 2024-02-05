@@ -1,7 +1,6 @@
 import { SelectionProduct } from '@/app/product/[productId]/page'
 import { cn } from '@/lib/utils'
 import { Product } from '@/payload-types'
-import Image from 'next/image'
 
 const SizesSelectorProduct = ({
   product,
@@ -12,12 +11,13 @@ const SizesSelectorProduct = ({
   selectionProduct: SelectionProduct | undefined
   changeSelectedSize: (sizeSelected: string) => void
 }) => {
+  
   const handleSizeChange = (sizeSelected: string) => {
     changeSelectedSize(sizeSelected)
   }
 
   const sizeHasUnits = (sizeSelected: string) => {
-    return product.product_items.some((productItem) => {
+    return !product.product_items.some((productItem) => {
       if (productItem.id === selectionProduct?.colorSelectedId) {
         if (productItem.sizes_quantity[0][sizeSelected] > 0) {
           return true

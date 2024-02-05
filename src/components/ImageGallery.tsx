@@ -12,7 +12,6 @@ interface ImageSliderProps {
   urls: string[]
 }
 
-
 const ImageGallery = ({ urls }: ImageSliderProps) => {
   const [swiper, setSwiper] = useState<null | SwiperType>(null)
 
@@ -96,7 +95,7 @@ const ImageGallery = ({ urls }: ImageSliderProps) => {
                 // starts loading sooner
                 loading='eager'
                 src={url}
-                alt='Product Image'
+                alt={`Product Image ${i}`}
                 className='-z-10 h-full object-cover object-center'
               />
             </SwiperSlide>

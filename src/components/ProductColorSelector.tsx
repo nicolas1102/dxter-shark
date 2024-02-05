@@ -80,6 +80,7 @@ const ProductColorSelector = ({
                 backgroundColor: color.color_hex,
               }}
             >
+              {/* TODO: Fix this type error */}
               {colorHasUnits(color) ? (
                 <Image
                   src='/product-page/sold-out-x.png'

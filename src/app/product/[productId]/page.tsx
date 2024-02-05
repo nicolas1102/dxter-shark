@@ -5,7 +5,7 @@ import ImageGallery from '@/components/ImageGallery'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import ProductReel from '@/components/ProductReel'
 import { fetchProduct } from '@/lib/fetch-product'
-import { cn, formatPrice } from '@/lib/utils'
+import { formatPrice } from '@/lib/utils'
 import { Product } from '@/payload-types'
 import { Check, Shield } from 'lucide-react'
 import { PRODUCT_CATEGORIES } from '@/config/const'
@@ -15,6 +15,12 @@ import { useEffect, useState } from 'react'
 import InfoProductItem from '@/components/InfoProductItem'
 import SizesSelectorProduct from '@/components/ProductSizesSelector'
 import ProductColorSelector from '@/components/ProductColorSelector'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
 
 interface PageProps {
   params: {
@@ -23,7 +29,7 @@ interface PageProps {
 }
 
 export interface SelectionProduct {
-  productId: string | null | undefined
+  product: Product
   colorSelectedId: string | null | undefined
   sizeSelected: string | null | undefined
 }
@@ -43,18 +49,17 @@ const BREADCRUMBS = [
 
 export default function Page({ params }: PageProps) {
   const { productId } = params
-  const [product, setProduct] = useState<Product | null>(null)
+  // const [product, setProduct] = useState<Product | null>(null)
   const [selectionProduct, setSelectionProduct] = useState<
-    SelectionProduct | undefined
-  >()
+    SelectionProduct | undefined | null
+  >(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const product = await fetchProduct(productId)
-        setProduct(product)
         setSelectionProduct({
-          productId: product?.id,
+          product: product,
           colorSelectedId: product.product_items[0].id,
           sizeSelected: 'xsmall',
         })
@@ -65,7 +70,7 @@ export default function Page({ params }: PageProps) {
     fetchData()
   }, [productId])
 
-  if (!product) {
+  if (!selectionProduct?.product) {
     // TODO: Make an Skeleton
     return <p>LOADING...</p>
   }
@@ -78,10 +83,10 @@ export default function Page({ params }: PageProps) {
   )
 
   const label = categories.find(
-    ({ value }) => value === product.category
+    ({ value }) => value === selectionProduct.product.category
   )?.label
 
-  const validUrls = product.product_items
+  const validUrls = selectionProduct.product.product_items
     .map(({ images }) =>
       images.map(({ image }) => (typeof image === 'string' ? image : image.url))
     )
@@ -92,17 +97,66 @@ export default function Page({ params }: PageProps) {
   const changeSelectedColor = (colorId: string | null | undefined) => {
     if (colorId) {
       setSelectionProduct((prevState) => ({
-        productId: prevState?.productId,
+        product: prevState?.product || selectionProduct.product,
         colorSelectedId: colorId,
         sizeSelected: prevState?.sizeSelected,
       }))
     }
   }
 
+  const updateCurrentProduct = (quantity: number) => {
+    setSelectionProduct((prevState) => {
+      if (!prevState || !prevState.product) {
+        return prevState
+      }
+
+      const productItemSelectedIndex =
+        prevState.product.product_items.findIndex(
+          (productItem) => productItem.id === prevState.colorSelectedId
+        )
+
+      if (productItemSelectedIndex === -1) {
+        return prevState
+      }
+
+      const updatedProductItems = prevState.product.product_items.map(
+        (productItem, index) => {
+          if (index === productItemSelectedIndex) {
+            const updatedSizesQuantity = {
+              ...productItem.sizes_quantity[0],
+              [prevState.sizeSelected]:
+                productItem.sizes_quantity[0][prevState.sizeSelected] +
+                quantity,
+            }
+
+            const updatedProductItem = {
+              ...productItem,
+              sizes_quantity: [updatedSizesQuantity],
+            }
+
+            return updatedProductItem
+          }
+
+          return productItem
+        }
+      )
+
+      const updatedProduct = {
+        ...prevState.product,
+        product_items: updatedProductItems,
+      }
+
+      return {
+        ...prevState,
+        product: updatedProduct,
+      }
+    })
+  }
+
   const changeSelectedSize = (sizeSelected: string | null | undefined) => {
     if (sizeSelected) {
       setSelectionProduct((prevState) => ({
-        productId: prevState?.productId,
+        product: prevState?.product || selectionProduct.product,
         colorSelectedId: prevState?.colorSelectedId,
         sizeSelected: sizeSelected,
       }))
@@ -136,7 +190,7 @@ export default function Page({ params }: PageProps) {
         <li>
           <div className='flex items-center'>
             <p className='text-sm font-light hover:text-muted-foreground cursor-pointer tracking-widest'>
-              {product.name}
+              {selectionProduct.product.name}
             </p>
           </div>
         </li>
@@ -144,16 +198,40 @@ export default function Page({ params }: PageProps) {
 
       <div className='max-w-2xl lg:grid lg:max-w-7xl lg:grid-cols-2 lg:gap-x-16 mb-16'>
         {/* Product Images */}
-        <div className='lg:row-span-2 lg:mt-0 lg:self-center'>
+        <div className='lg:row-span-2 lg:mt-0'>
           {validUrls && <ImageGallery urls={validUrls} />}
+
+          <Accordion type='single' collapsible className='my-6'>
+            <AccordionItem value='item-1'>
+              <AccordionTrigger className='font-normal tracking-widest'>
+                GENERAL SIZE CHART
+              </AccordionTrigger>
+              <AccordionContent>
+                <Image
+                  src='/product-page/general size chart.webp'
+                  alt='general size chart'
+                  width={1000}
+                  height={80}
+                  className='pt-8'
+                />
+                <p className='pt-8 text-base font-extralight'>
+                  <span className='font-medium'>DISCLAIMER: </span>These charts
+                  are for reference ONLY. This is intended to be a general
+                  guide, and while we do our best to ensure all our sizing is
+                  consistent, you may find that some styles vary in size. Fit
+                  may vary depending on the construction and material.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
         </div>
 
         {/* Product Details */}
-        {product && (
+        {selectionProduct.product && (
           <div className='lg:max-w-lg lg:self-end'>
             <div className='mt-4'>
               <h1 className='text-xl font-light tracking-widest text-primary sm:text-2xl'>
-                {product.name}
+                {selectionProduct.product.name}
                 <span className='ml-4 border-l text-muted-foreground border-gray-300 pl-4 text-lg'>
                   {label}
                 </span>
@@ -163,20 +241,20 @@ export default function Page({ params }: PageProps) {
             <section className='mt-4'>
               <div className='flex items-center'>
                 <p className='font-medium text-xl text-muted-foreground '>
-                  {formatPrice(product.price)}
+                  {formatPrice(selectionProduct.product.price)}
                 </p>
               </div>
 
               {/* colors */}
               <ProductColorSelector
-                product={product}
+                product={selectionProduct.product}
                 selectionProduct={selectionProduct}
                 changeSelectedColor={changeSelectedColor}
               />
 
               {/* sizes */}
               <SizesSelectorProduct
-                product={product}
+                product={selectionProduct.product}
                 selectionProduct={selectionProduct}
                 changeSelectedSize={changeSelectedSize}
               />
@@ -202,30 +280,42 @@ export default function Page({ params }: PageProps) {
                     </span>
                   </div>
                   <div className='my-5'>
-                    <AddToCartButton />
+                    <AddToCartButton
+                      selectionProduct={selectionProduct}
+                      updateProduct={updateCurrentProduct}
+                    />
                   </div>
                 </div>
               </div>
 
               <ul className='gap-y-14'>
-                {product.material && (
+                {selectionProduct.product.material && (
                   <InfoProductItem
-                    props={{ title: 'MATERIAL', data: product.material }}
+                    props={{
+                      title: 'MATERIAL',
+                      data: selectionProduct.product.material,
+                    }}
                   />
                 )}
-                {product.fit && (
+                {selectionProduct.product.fit && (
                   <InfoProductItem
-                    props={{ title: 'FIT', data: product.fit }}
+                    props={{ title: 'FIT', data: selectionProduct.product.fit }}
                   />
                 )}
-                {product.description && (
+                {selectionProduct.product.description && (
                   <InfoProductItem
-                    props={{ title: 'DESIGN', data: product.description }}
+                    props={{
+                      title: 'DESIGN',
+                      data: selectionProduct.product.description,
+                    }}
                   />
                 )}
-                {product.model && (
+                {selectionProduct.product.model && (
                   <InfoProductItem
-                    props={{ title: 'MODEL', data: product.model }}
+                    props={{
+                      title: 'MODEL',
+                      data: selectionProduct.product.model,
+                    }}
                   />
                 )}
                 <li className='mt-10 w-auto'>
@@ -245,9 +335,9 @@ export default function Page({ params }: PageProps) {
       {/* Similar components */}
       <ProductReel
         href='/products'
-        query={{ category: product.category, limit: 4 }}
+        query={{ category: selectionProduct.product.category, limit: 4 }}
         title={`MORE ${label} YOU MAY ALSO LIKE`}
-        subtitle={`Browse similar high-quality ${label} just like '${product.name}'`}
+        subtitle={`Browse similar high-quality ${label} just like '${selectionProduct.product.name}'`}
       />
     </MaxWidthWrapper>
   )
