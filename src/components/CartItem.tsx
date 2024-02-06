@@ -82,7 +82,6 @@ const CartItem = ({
                   } else {
                     removeItem(selectionProduct)
                   }
-                  // console.log(quantity);
                 }}
                 className='h-12 w-10 border flex items-center justify-center '
               >

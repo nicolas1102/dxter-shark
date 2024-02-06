@@ -25,7 +25,7 @@ export const appRouter = router({
       const payload = await getPayloadClient() // get the products of the database
 
       // parsing queryOpts. We're putting the queryOptions in our CMS sintax
-      const parsedQueryOpts: Record<string, { equals: string }> = {} 
+      const parsedQueryOpts: Record<string, { equals: string }> = {}
       Object.entries(queryOpts).forEach(([key, value]) => {
         parsedQueryOpts[key] = {
           equals: value,
@@ -55,7 +55,7 @@ export const appRouter = router({
         items,
         nextPage: hasNextPage ? nextPage : null
       }
-    })
+    }),
 })
 
 export type AppRouter = typeof appRouter
