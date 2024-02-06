@@ -10,9 +10,20 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import { SelectionProduct } from '../product/[productId]/page'
+import { useRouter } from 'next/navigation'
+import { trpc } from '@/trpc/client'
 
 export default function Page() {
   const { items, addItem, removeItem } = useCart()
+
+  const router = useRouter()
+
+  const { mutate: createCheckoutSession, isLoading } =
+    trpc.payment.createSession.useMutation({
+      onSuccess: ({ url }) => {
+        if (url) router.push(url)
+      },
+    })
 
   // Trick: we basically waiting for everything that comes from client side
   const [isMounted, setIsMounted] = useState<boolean>(false)
@@ -29,6 +40,10 @@ export default function Page() {
   )
 
   const fee = 1
+
+  const productsIds = items.map(
+    ({ selectionProduct }) => selectionProduct.product.id
+  )
 
   // TODO: arreglar logica de fee y que tales
   // TODO: Skeleton
@@ -256,9 +271,7 @@ export default function Page() {
             </div>
 
             <div className='flex items-center justify-between border-t border-gray-200 pt-4'>
-              <div className='text-base font-medium'>
-                Order Total
-              </div>
+              <div className='text-base font-medium'>Order Total</div>
               <div className='text-base font-medium'>
                 {isMounted ? (
                   formatPrice(cartTotal + fee)
@@ -271,10 +284,14 @@ export default function Page() {
             <div className='mt-6'>
               {/* This button are gonna tell the backend to create a checkout session (the front send the products (the cart)), where it's ready, backend send it to client (the url session) and front redirect to the user to that session url */}
               <Button
+                disabled={items.length === 0 || isLoading}
                 className='w-full tracking-widest'
                 size='lg'
-                onClick={() => {}}
+                onClick={() => createCheckoutSession({ productsIds })}
               >
+                {isLoading ? (
+                  <Loader2 className='w-4 h-4 animate-spin mr-1.5' />
+                ) : null}
                 CHECKOUT
               </Button>
             </div>

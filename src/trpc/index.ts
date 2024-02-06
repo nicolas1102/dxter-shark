@@ -5,10 +5,12 @@ import { authRouter } from './auth-router'
 import { publicProcedure, router } from './trpc'
 import { QueryValidator } from '../lib/validators/query-validator'
 import { getPayloadClient } from '../get-payload';
+import { paymentRouter } from './payment-router';
 
 // this where we create our API endpoints
 export const appRouter = router({
   auth: authRouter,
+  payment: paymentRouter,
   // publicProcedure means that everyone can access to this end point
   getInfiniteProducts: publicProcedure
     .input(
