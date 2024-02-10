@@ -122,7 +122,13 @@ export interface Order {
   id: string;
   _isPaid: boolean;
   user: string | User;
-  products: (string | Product)[];
+  productsCart: {
+    product: string | Product;
+    colorId: string;
+    size: string;
+    quantity: number;
+    id?: string | null;
+  }[];
   updatedAt: string;
   createdAt: string;
 }

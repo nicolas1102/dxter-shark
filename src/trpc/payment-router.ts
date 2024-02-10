@@ -4,17 +4,37 @@ import { TRPCError } from '@trpc/server';
 import { getPayloadClient } from '../get-payload';
 import { stripe } from '../lib/stripe';
 import type Stype from 'stripe'
+import { Product } from '@/payload-types';
 
 export const paymentRouter = router({
   createSession: privateProcedure
-    .input(z.object({ productsIds: z.array(z.string()) }))
+    .input(z.object({
+      productsData: z.array(z.object({
+        product: z.string(),
+        colorId: z.string(),
+        size: z.string(),
+        quantity: z.number(),
+      }))
+    }))
+    // .input(z.object({
+    //   productsData: z.array({
+    //     productId: z.string(),
+    //     colorId: z.string(),
+    //     size: z.string(),
+    //     quantity: z.number(),
+    //   })
+    // }))
     .mutation(async ({ ctx, input }) => {
       const { user } = ctx
-      let { productsIds } = input
+      let { productsData } = input
 
-      if (productsIds.length === 0) {
+      if (productsData.length === 0) {
         throw new TRPCError({ code: 'BAD_REQUEST' })
       }
+
+      const productsIds = productsData.map(
+        ({ product }) => product
+      )
 
       const payload = await getPayloadClient()
 
@@ -27,26 +47,39 @@ export const paymentRouter = router({
         }
       })
 
-      const filteredProducts = products.filter(product => Boolean(product.priceId))
+      const filteredProductsWithPriceId = products.filter(product => Boolean(product.priceId))
 
-      console.log(filteredProducts);
-      
+      const filteredProducts = productsData.map(productData => {
+        const matchingProduct = filteredProductsWithPriceId.find(
+          filteredProduct => filteredProduct.id === productData.product
+        );
+        return { ...productData, product: matchingProduct as Product };
+      });
+
+      const filteredProducts2 = productsData.map(productData => {
+        const matchingProduct = filteredProductsWithPriceId.find(
+          filteredProduct => filteredProduct.id === productData.product
+        );
+        return { ...productData };
+      });
+
+      // console.log(filteredProducts);
 
       const order = await payload.create({
         collection: 'orders',
         data: {
           _isPaid: false,
-          products: filteredProducts.map((product) => product.id),
+          productsCart: filteredProducts2,
           user: user.id,
         }
       })
 
       const line_items: Stype.Checkout.SessionCreateParams.LineItem[] = []
 
-      filteredProducts.forEach((product) => {
+      filteredProducts.forEach((productItem) => {
         line_items.push({
-          price: product.priceId!,
-          quantity: 1,
+          price: productItem.product.priceId!,
+          quantity: productItem.quantity,
         })
       })
 
@@ -60,6 +93,7 @@ export const paymentRouter = router({
 
       try {
         const stripeSession = await stripe.checkout.sessions.create({
+          // success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
           success_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/thank-you?orderId=${order.id}`,
           // if something went wrong, if the user cancel
           cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/cart`,

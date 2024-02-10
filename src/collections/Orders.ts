@@ -49,11 +49,45 @@ export const Orders: CollectionConfig = {
       required: true
     },
     {
-      name: 'products',
-      type: 'relationship',
-      relationTo: 'products',
-      hasMany: true,
+      name: 'productsCart',
+      label: 'Products Cart',
+      type: 'array',
+      minRows: 0,
       required: true,
+      labels: {
+        singular: 'Product Cart',
+        plural: 'Products Cart',
+      },
+      fields: [
+        {
+          name: 'product',
+          type: 'relationship',
+          relationTo: 'products',
+          hasMany: false,
+          required: true,
+        },
+        {
+          name: 'colorId',
+          label: 'Color Id',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'size',
+          label: 'Size',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'quantity',
+          label: 'Quantity',
+          type: 'number',
+          min: 1,
+          defaultValue: 1,
+          required: true,
+        },
+
+      ],
     }
   ]
 } 

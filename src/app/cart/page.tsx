@@ -45,6 +45,15 @@ export default function Page() {
     ({ selectionProduct }) => selectionProduct.product.id
   )
 
+  const productsData = items.map(({ selectionProduct, quantity }) => {
+    return {
+      product: selectionProduct.product.id,
+      colorId: selectionProduct.colorSelectedId!,
+      size: selectionProduct.sizeSelected!,
+      quantity: quantity,
+    }
+  })
+
   // TODO: arreglar logica de fee y que tales
   // TODO: Skeleton
   // TODO: Modular componentes
@@ -287,7 +296,7 @@ export default function Page() {
                 disabled={items.length === 0 || isLoading}
                 className='w-full tracking-widest'
                 size='lg'
-                onClick={() => createCheckoutSession({ productsIds })}
+                onClick={() => createCheckoutSession({ productsData })}
               >
                 {isLoading ? (
                   <Loader2 className='w-4 h-4 animate-spin mr-1.5' />
