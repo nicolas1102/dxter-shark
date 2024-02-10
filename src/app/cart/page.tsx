@@ -31,8 +31,6 @@ export default function Page() {
     setIsMounted(true)
   }, [])
 
-  const productsCart = items.map(({ selectionProduct }) => selectionProduct)
-
   const cartTotal = items.reduce(
     (total, { selectionProduct, quantity }) =>
       total + selectionProduct?.product.price * quantity,
@@ -40,10 +38,6 @@ export default function Page() {
   )
 
   const fee = 1
-
-  const productsIds = items.map(
-    ({ selectionProduct }) => selectionProduct.product.id
-  )
 
   const productsData = items.map(({ selectionProduct, quantity }) => {
     return {
