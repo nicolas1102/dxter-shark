@@ -1,3 +1,5 @@
+This page takes inspiration and images from https://www.youngla.com/
+
 ### The challenge
 
 Users should be able to:
