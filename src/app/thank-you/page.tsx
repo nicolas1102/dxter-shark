@@ -71,8 +71,8 @@ const Page = async ({ searchParams }: PageProps) => {
             <p className='text-sm font-medium tracking-widest'>
               ORDER SUCCESSFUL
             </p>
-            <h1 className='mt-2 text-4xl font-bold tracking-tight sm:text-5xl'>
-              Thanks for ordering
+            <h1 className='mt-2 text-2xl font-light tracking-widest sm:text-4xl'>
+              THANKS FOR ORDERING
             </h1>
 
             {order._isPaid ? (
@@ -95,7 +95,7 @@ const Page = async ({ searchParams }: PageProps) => {
               </p>
             )}
 
-            <div className='mt-16 text-sm font-medium'>
+            <div className='mt-10 text-sm font-medium'>
               <div className='text-muted-foreground'>Order N°.</div>
               <div className='mt-2 text-primary'>{order.id}</div>
 

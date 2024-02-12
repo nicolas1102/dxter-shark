@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter as FontSans } from 'next/font/google'
 import './globals.css'
-import { ThemeProvider } from '@/components/useThemeProvider'
+import { ThemeProvider } from '@/components/NavBar/useThemeProvider'
 import { cn } from '@/lib/utils'
-import Navbar from '@/components/Navbar'
+import Navbar from '@/components/NavBar/Navbar'
 import Providers from '@/components/Providers'
 import { Toaster } from 'sonner'
 

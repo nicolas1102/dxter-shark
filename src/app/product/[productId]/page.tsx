@@ -1,6 +1,6 @@
 'use client'
 
-import AddToCartButton from '@/components/AddToCartButton'
+import AddToCartButton from '@/components/NavBar/AddToCartButton'
 import ImageGallery from '@/components/ImageGallery'
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
 import ProductReel from '@/components/ProductReel'
