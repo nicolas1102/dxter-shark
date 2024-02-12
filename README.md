@@ -1,3 +1,4 @@
+# Dxter Shark
 Dxter Shark is a personal project for a sportswear e-commerce developed with NextJS 14, Typescript, Tailwind, ShadcnUI, Stripe, Payload (CMS), MongoDB, among others.
 This page takes inspiration and images from https://www.youngla.com/
 
