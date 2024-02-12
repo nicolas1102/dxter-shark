@@ -1,0 +1,15 @@
+- Reestruturar app para solo usuarios, admin y seller (para ser seller debe ser aprobado por el admin)
+- Color picker en creacion de productos
+- Mobile styles
+- Not found, error, loading page
+- Skeleton product page y todas las paginas que falten
+- Arreglar arrows de slider images
+- Rehacer slider home
+- Hacer 'TODO's comments
+- Objects errors "[]"
+- Footer
+- Image fill console error
+- Api unique users
+- Fee and shopping logic review
+- Arreglar bug del carrito al aumentar a maximas unidades del item
+- profile page
