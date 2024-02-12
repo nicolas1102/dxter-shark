@@ -8,7 +8,7 @@ Users should be able to:
 - Make purchases
 
 Admin should be able to:
-- Ver, Añadir, Editar y Eliminar productos, usuarios, media, users
+- View, Add, Edit and Delete products, users, media, users
   
 ## Run Project
 In the console, you must run the following command to install all the modules and packages necessary for the application: 
